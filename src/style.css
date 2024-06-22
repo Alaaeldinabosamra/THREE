@@ -1,0 +1,20 @@
+/* to avoid the canvas outlined browser */
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/* to avoid the scroll issue  */
+html,
+body{
+    overflow: hidden;
+}
+
+/* to avoid the scroll to view full canva */
+.webgl{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
