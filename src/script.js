@@ -19,7 +19,9 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
  * Base
  */
 // Debug
-const gui = new dat.GUI()
+const gui = new dat.GUI({ closed: true, width: 300 })
+gui.hide()
+
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -30,6 +32,8 @@ const scene = new THREE.Scene()
 // Axes helper
 const axesHelper = new THREE.AxesHelper()
 // scene.add(axesHelper)
+
+
 
 
 /**
@@ -43,17 +47,19 @@ const matcapTexture1 = textureLoader.load('/textures/matcaps/5.jpg')
  */
 // const fontLoader = new FontLoader()
 const fontLoader = new FontLoader()
+const obj1 = {name: 'Alaa ElDin Abousamra', age: 25}
 
+const name = obj1.name || "Hello THree Js" 
 
 fontLoader.load(
     // '/fonts/helvetiker_regular.typeface.json',
     // '/fonts/Chewy_Regular.typeface.json',
     // '/fonts/Lemonada_Regular.typeface.json',
-    // '/fonts/MarheyLight_Regular.typeface.json',
-    '/fonts/Silkscreen_Regular.typeface.json',
+    '/fonts/MarheyLight_Regular.typeface.json',
+    // '/fonts/Silkscreen_Regular.typeface.json',
     (font) => {
         const textGeometry = new TextGeometry(
-            'Hello Three Js !',
+            name,
             {
                 font: font,
                 size: 0.5,
@@ -79,11 +85,12 @@ fontLoader.load(
         // textMaterial.wireframe = true
         const text = new THREE.Mesh(textGeometry,textMaterial)
         scene.add(text)
+        
 
         // create outside for loop for better performance and low time execute
         const donutGeometry = new THREE.TorusGeometry(0.3,0.2,20,45)
         const donutMaterial = new THREE.MeshMatcapMaterial({matcap: matcapTexture1})
-
+        
         for(let i =0; i < 200; i++)
             {
                 
@@ -103,12 +110,22 @@ fontLoader.load(
             }
     }
 
-    
 )
 
+// const newButton = document.getElementById('button1')
+// newButton.addEventListener('click', () => {
+//     alert('New button clicked!');
+//   });
 
-
-
+document.addEventListener('keydown', (event) => {
+    if(event.key === 'h'){
+        alert('To Exit the GUI Panel Press q ')
+        gui.show()
+    } else if(event.key === 'q') {
+        alert('To Open the GUI Panel Press h ')
+        gui.hide()
+    }
+})
 
 /**
  * Sizes
@@ -132,6 +149,19 @@ window.addEventListener('resize', () =>
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
+
+/**
+ * Fullscreen
+ */
+
+window.addEventListener('dblclick', () => {
+    if(!document.fullscreenElement){
+            canvas.requestFullscreen()
+        }else{
+            document.exitFullscreen()
+        }
+})
+
 
 /**
  * Camera
